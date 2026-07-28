@@ -1,6 +1,6 @@
 {
-	"name": "everything-toolbox",
-	"description": "Free, fast, private web tools — converters, calculators, generators and interactive visualizers.",
+	"name": "tools-seanfunk",
+	"description": "tools[dot]seanfunk — converting, calculating, generating, checking, answered in the browser.",
 	"private": true,
 	"version": "0.0.1",
 	"type": "module",

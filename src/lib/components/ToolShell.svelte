@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { base } from '$app/paths';
+	import { pageTitle } from '$lib/brand';
 	import { page } from '$app/state';
 	import { CATEGORY_BY_ID, TOOL_BY_PATH, toolPath, toolsIn, type Tool } from '$lib/catalog';
 	import { prefs } from '$lib/state/prefs.svelte';
@@ -54,7 +55,7 @@
 </script>
 
 <svelte:head>
-	<title>{heading} · The Everything Toolbox</title>
+	<title>{pageTitle(heading)}</title>
 	<meta name="description" content={description} />
 	<meta property="og:title" content={heading} />
 	<meta property="og:description" content={description} />
@@ -171,8 +172,12 @@
 		text-decoration: none;
 	}
 	.crumbs a:hover {
-		color: var(--accent);
+		color: var(--text);
 		text-decoration: underline;
+	}
+	/* The category crumb carries the category's colour. */
+	.crumbs a:last-child {
+		color: var(--section);
 	}
 
 	.title-row {

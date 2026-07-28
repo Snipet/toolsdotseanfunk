@@ -3,15 +3,36 @@
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
 	import { page } from '$app/state';
-	import { CATEGORIES } from '$lib/catalog';
+	import { BRAND, TAGLINE } from '$lib/brand';
+	import { CATEGORIES, CATEGORY_BY_ID } from '$lib/catalog';
 	import { prefs } from '$lib/state/prefs.svelte';
+	import BrandMark from '$lib/components/BrandMark.svelte';
 	import CommandPalette from '$lib/components/CommandPalette.svelte';
 	import Omnibox from '$lib/components/Omnibox.svelte';
 	import Icon from '$lib/components/Icon.svelte';
+	import Wordmark from '$lib/components/Wordmark.svelte';
 
 	let { children } = $props();
 
-	const isHome = $derived(page.url.pathname === '/');
+	const path = $derived(page.url.pathname.slice(base.length) || '/');
+	const isHome = $derived(path === '/');
+
+	/**
+	 * The category owns the chrome's colour. The first path segment is the
+	 * category on every tool and category page; everywhere else falls back to the
+	 * accent, which is what `--section` already is.
+	 */
+	const section = $derived.by(() => {
+		const first = path.split('/').filter(Boolean)[0];
+		return first && CATEGORY_BY_ID.has(first) ? first : undefined;
+	});
+
+	// The body's wash reads `--section` from the root, so it has to live there.
+	$effect(() => {
+		const root = document.documentElement;
+		if (section) root.setAttribute('data-section', section);
+		else root.removeAttribute('data-section');
+	});
 	let navOpen = $state(false);
 
 	const themeIcon = $derived(
@@ -31,19 +52,9 @@
 
 <header class="site-header">
 	<div class="bar">
-		<a class="brand" href="{base}/" aria-label="The Everything Toolbox — home">
-			<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
-				<rect x="2.5" y="7.5" width="19" height="12" rx="2.5" fill="var(--accent)" />
-				<path
-					d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5"
-					fill="none"
-					stroke="var(--accent)"
-					stroke-width="2"
-				/>
-				<path d="M2.5 12.5h19" stroke="var(--bg)" stroke-width="1.6" />
-				<rect x="10" y="10.6" width="4" height="3.8" rx="1" fill="var(--bg)" />
-			</svg>
-			<span class="wordmark">Everything <strong>Toolbox</strong></span>
+		<a class="brand" href="{base}/" aria-label="{BRAND} — home">
+			<BrandMark />
+			<Wordmark size="md" sectioned />
 		</a>
 
 		{#if !isHome}
@@ -82,7 +93,7 @@
 	{#if navOpen}
 		<nav class="drawer" aria-label="Categories">
 			{#each CATEGORIES as category (category.id)}
-				<a href="{base}/{category.id}">{category.name}</a>
+				<a href="{base}/{category.id}" data-section={category.id}>{category.name}</a>
 			{/each}
 			<a href="{base}/all">Everything</a>
 			<a href="{base}/about">About</a>
@@ -97,15 +108,14 @@
 <footer class="site-footer">
 	<div class="foot-inner">
 		<div class="foot-brand">
-			<p class="foot-title">The Everything Toolbox</p>
+			<p class="foot-title"><Wordmark size="sm" /></p>
 			<p class="small muted">
-				Free, fast and private. Every tool on this site runs in your browser — nothing you type or
-				upload is sent to a server.
+				{TAGLINE} Every tool runs in your browser — nothing you type or upload is sent to a server.
 			</p>
 		</div>
 		<nav class="foot-cats" aria-label="Categories">
 			{#each CATEGORIES as category (category.id)}
-				<a href="{base}/{category.id}">{category.name}</a>
+				<a href="{base}/{category.id}" data-section={category.id}>{category.name}</a>
 			{/each}
 		</nav>
 	</div>
@@ -125,10 +135,11 @@
 		left: -9999px;
 		top: 0;
 		z-index: 200;
-		background: var(--bg-raised);
+		background: var(--accent);
+		color: var(--accent-contrast);
+		font-weight: 600;
 		padding: 0.6rem 1rem;
-		border-radius: 0 0 var(--radius) 0;
-		border: 1px solid var(--accent);
+		border-radius: 0 0 var(--radius-2) 0;
 	}
 	.skip:focus {
 		left: 0;
@@ -138,9 +149,12 @@
 		position: sticky;
 		top: 0;
 		z-index: 50;
-		background: color-mix(in srgb, var(--bg) 86%, transparent);
-		backdrop-filter: blur(12px);
-		border-bottom: 1px solid var(--border);
+		background: color-mix(in oklab, var(--bg) 88%, transparent);
+		backdrop-filter: blur(14px) saturate(1.4);
+		border-bottom: 1px solid var(--hairline);
+		/* The category colour bleeds into the header's edge, so where you are is
+		   legible before you read a label. */
+		box-shadow: inset 0 -1px 0 var(--section-edge);
 	}
 
 	.bar {
@@ -159,15 +173,6 @@
 		text-decoration: none;
 		color: var(--text);
 		flex: none;
-	}
-	.wordmark {
-		font-size: 0.98rem;
-		font-weight: 450;
-		letter-spacing: -0.01em;
-		white-space: nowrap;
-	}
-	.wordmark strong {
-		font-weight: 700;
 	}
 
 	.header-search {
@@ -188,7 +193,7 @@
 		font-weight: 500;
 	}
 	.primary a:hover {
-		color: var(--accent);
+		color: var(--text);
 	}
 
 	.header-actions {
@@ -213,7 +218,8 @@
 		font-size: 0.9rem;
 	}
 	.drawer a:hover {
-		background: var(--bg-hover);
+		background: var(--surface-2);
+		box-shadow: inset 2px 0 0 var(--section);
 	}
 
 	main {
@@ -225,8 +231,8 @@
 	}
 
 	.site-footer {
-		border-top: 1px solid var(--border);
-		background: var(--bg-sunken);
+		border-top: 1px solid var(--hairline);
+		background: color-mix(in oklab, var(--bg-deep) 60%, transparent);
 		margin-top: auto;
 	}
 
@@ -240,8 +246,7 @@
 	}
 
 	.foot-title {
-		font-weight: 650;
-		margin-bottom: 0.35rem;
+		margin-bottom: 0.45rem;
 	}
 
 	.foot-brand p.small {
@@ -260,7 +265,7 @@
 		font-size: 0.88rem;
 	}
 	.foot-cats a:hover {
-		color: var(--accent);
+		color: var(--section);
 	}
 
 	.foot-legal {
@@ -281,7 +286,9 @@
 		.header-search {
 			max-width: none;
 		}
-		.wordmark {
+		/* Narrow screens keep the mark and drop the name, so the search box wins
+		   the space. The selector reaches into the Wordmark component. */
+		.brand :global(.wordmark) {
 			display: none;
 		}
 		.foot-inner {

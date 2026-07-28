@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import { BRAND } from '$lib/brand';
 	import { CATEGORIES, FEATURED, TOOLS, TOOL_BY_PATH, toolsIn, type Tool } from '$lib/catalog';
 	import { prefs } from '$lib/state/prefs.svelte';
 	import Omnibox from '$lib/components/Omnibox.svelte';
 	import ToolCard from '$lib/components/ToolCard.svelte';
 	import Icon from '$lib/components/Icon.svelte';
+	import Wordmark from '$lib/components/Wordmark.svelte';
 
 	const featured = FEATURED.map((p) => TOOL_BY_PATH.get(p)).filter((x): x is Tool => Boolean(x));
 
@@ -31,7 +33,7 @@
 </script>
 
 <svelte:head>
-	<title>The Everything Toolbox — free, fast, private web tools</title>
+	<title>{BRAND} — free, fast, private web tools</title>
 	<meta
 		name="description"
 		content="Converters, calculators, generators, visualizers and file tools — {TOOLS.length} of them, all free, all instant, all running in your browser."
@@ -39,7 +41,8 @@
 </svelte:head>
 
 <section class="hero">
-	<h1>Whatever the small task is, it's here.</h1>
+	<p class="eyebrow">Whatever the small task is, it's here</p>
+	<h1 class="hero-title"><Wordmark size="lg" sectioned /></h1>
 	<p class="tagline">
 		Converting, calculating, generating, checking, visualizing — {TOOLS.length} tools, no signup, no
 		ads, nothing sent to a server.
@@ -138,6 +141,10 @@
 </section>
 
 <style>
+	.hero-title {
+		margin-block: 0.35rem 0.15rem;
+	}
+
 	.hero {
 		text-align: center;
 		padding: clamp(1.5rem, 5vw, 3.5rem) 0 2.5rem;

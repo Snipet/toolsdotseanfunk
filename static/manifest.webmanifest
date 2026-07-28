@@ -1,12 +1,12 @@
 {
-	"name": "The Everything Toolbox",
-	"short_name": "Toolbox",
-	"description": "Converters, calculators, generators and visualizers — free, fast and private.",
+	"name": "tools[dot]seanfunk",
+	"short_name": "tools[dot]seanfunk",
+	"description": "Converting, calculating, generating, checking — answered in the browser, instantly.",
 	"start_url": "/",
 	"scope": "/",
 	"display": "standalone",
-	"background_color": "#fbfbfa",
-	"theme_color": "#b8481f",
+	"background_color": "#0a0d11",
+	"theme_color": "#0a0d11",
 	"icons": [
 		{
 			"src": "/favicon.svg",

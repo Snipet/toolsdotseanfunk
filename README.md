@@ -1,7 +1,10 @@
-# The Everything Toolbox
+# tools[dot]seanfunk
 
 A static Svelte 5 site that tries to be the one place you go for any small task:
 converting, calculating, generating, checking, visualizing.
+
+The name is written lowercase throughout and the bracketed `[dot]` is literal —
+it is part of the name, as on its sibling, rubiks[dot]seanfunk.
 
 **216 tools across 15 categories.** Every one runs in your browser. There is no
 backend, no account, no ads, and nothing you type or upload leaves your device.
@@ -87,6 +90,23 @@ the type-checker both missed.
 CI (`.github/workflows/ci.yml`) runs the type-check, the unit tests, both builds
 and the browser suite on every pull request and on pushes to `main` and `dev`.
 
+## Brand
+
+The site shares a visual language with its sibling, rubiks[dot]seanfunk: the same
+neutrals and indigo accent, the same fluid type and space scales, the same
+isometric mark and `[dot]` wordmark, and dark as the default with light opt-in.
+
+The one idea that translates rather than copies is the section colour. There, the
+chrome takes the colour of the cube face you are working on; here it takes the
+colour of the tool's category, so the header edge, card hovers, selection and the
+wash behind the page all tell you where you are before you read a label.
+Category colour is wayfinding only — status still comes from the accent and
+status ramps, so a red result can never be mistaken for the health category.
+
+`src/app.css` holds the tokens, and the names the 216 tools were built against
+(`--bg-raised`, `--radius`, `--shadow`) are aliases onto those scales, so the
+rebrand reached every tool without editing one.
+
 ## Architecture
 
 ```
@@ -112,8 +132,9 @@ download the matrix solver.
 
 WCAG-minded throughout: labelled inputs, keyboard-operable visualizers (the
 supply-and-demand curves respond to arrow keys), a skip link, visible focus
-rings, `prefers-reduced-motion` support, and light/dark/system themes applied
-before first paint so there is no flash. Reference pages and printables carry a
+rings, `prefers-reduced-motion` support, and a theme resolved before first paint
+so there is no flash — dark by default, with light and follow-the-system as
+choices. Reference pages and printables carry a
 print stylesheet that strips the interface.
 
 ## Deploying

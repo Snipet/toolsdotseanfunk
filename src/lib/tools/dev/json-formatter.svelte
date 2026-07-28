@@ -9,7 +9,7 @@
 
 	let { tool }: { tool: Tool } = $props();
 
-	let input = $state('{"name":"Everything Toolbox","tools":[{"id":1,"slug":"json-formatter"},{"id":2,"slug":"base64"}],"private":true,"server":null}');
+	let input = $state('{"name":"tools[dot]seanfunk","tools":[{"id":1,"slug":"json-formatter"},{"id":2,"slug":"base64"}],"private":true,"server":null}');
 	let indent = $state('2');
 	let sortKeys = $state(false);
 

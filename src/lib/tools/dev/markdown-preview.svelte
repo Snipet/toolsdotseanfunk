@@ -6,7 +6,7 @@
 
 	let { tool }: { tool: Tool } = $props();
 
-	let source = $state(`# The Everything Toolbox
+	let source = $state(`# tools[dot]seanfunk
 
 A **small** but _complete_ Markdown renderer, written from scratch.
 

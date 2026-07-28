@@ -9,7 +9,7 @@
 
 	const ALGORITHMS = ['SHA-1', 'SHA-256', 'SHA-384', 'SHA-512'] as const;
 
-	let text = $state('The Everything Toolbox');
+	let text = $state('tools[dot]seanfunk');
 	let hashes = $state<Record<string, string>>({});
 	let fileInfo = $state<{ name: string; size: number } | null>(null);
 	let compareTo = $state('');

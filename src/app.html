@@ -4,17 +4,21 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.svg" type="image/svg+xml" />
+		<link rel="mask-icon" href="%sveltekit.assets%/favicon.svg" color="#7c8cff" />
 		<link rel="manifest" href="%sveltekit.assets%/manifest.webmanifest" />
-		<meta name="theme-color" content="#b8481f" />
+		<meta name="theme-color" content="#0a0d11" media="(prefers-color-scheme: dark)" />
+		<meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)" />
 		<script>
-			// Apply the saved theme before first paint so there is no flash.
+			// Resolve the theme before first paint, so a hard refresh never flashes
+			// the wrong colours. Dark is the base, so only light is ever written.
 			try {
-				const saved = localStorage.getItem('tb:theme');
-				if (saved === 'light' || saved === 'dark') {
-					document.documentElement.dataset.theme = saved;
-				}
+				var saved = localStorage.getItem('tools-seanfunk:theme');
+				var light =
+					saved === 'light' ||
+					(saved === 'system' && window.matchMedia('(prefers-color-scheme: light)').matches);
+				document.documentElement.dataset.theme = light ? 'light' : 'dark';
 			} catch (e) {
-				/* private mode — fall back to the OS preference */
+				/* storage unavailable — the dark base is fine */
 			}
 		</script>
 		%sveltekit.head%

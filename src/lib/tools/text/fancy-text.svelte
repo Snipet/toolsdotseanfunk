@@ -7,7 +7,7 @@
 
 	let { tool }: { tool: Tool } = $props();
 
-	const s = urlState({ text: 'Everything Toolbox' });
+	const s = urlState({ text: 'tools[dot]seanfunk' });
 
 	const UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	const LOWER = 'abcdefghijklmnopqrstuvwxyz';

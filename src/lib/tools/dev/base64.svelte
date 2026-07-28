@@ -10,7 +10,7 @@
 	let { tool }: { tool: Tool } = $props();
 
 	let mode = $state<'encode' | 'decode'>('encode');
-	let text = $state('The Everything Toolbox — free, fast, private.');
+	let text = $state('tools[dot]seanfunk — free, fast, private.');
 	let urlSafe = $state(false);
 	let fileResult = $state<{ name: string; size: number; base64: string; type: string } | null>(null);
 

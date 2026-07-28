@@ -15,7 +15,8 @@
 	const category = $derived(CATEGORY_BY_ID.get(tool.category));
 </script>
 
-<a class="tool-card" class:compact {href}>
+<!-- `data-section` is set per card, so each one hovers in its own category's colour. -->
+<a class="tool-card" class:compact {href} data-section={tool.category}>
 	<span class="title">{tool.title}</span>
 	{#if !compact}
 		<span class="blurb">{tool.blurb}</span>
@@ -31,19 +32,24 @@
 		flex-direction: column;
 		gap: 0.25rem;
 		padding: 0.85rem 0.95rem;
-		background: var(--bg-raised);
-		border: 1px solid var(--border);
-		border-radius: var(--radius);
+		background: var(--surface-1);
+		border: 1px solid var(--hairline);
+		border-radius: var(--radius-3);
 		text-decoration: none;
 		color: var(--text);
-		transition: border-color 0.12s ease, box-shadow 0.12s ease, transform 0.12s ease;
+		transition:
+			border-color var(--dur-fast) var(--ease-out),
+			box-shadow var(--dur-fast) var(--ease-out),
+			transform var(--dur-fast) var(--ease-out);
 		height: 100%;
 	}
 
+	/* The category's colour picks the card up on hover, the same way the sibling
+	   site's cards answer to the section. */
 	.tool-card:hover {
-		border-color: var(--accent-border);
-		box-shadow: var(--shadow-sm);
-		transform: translateY(-1px);
+		border-color: var(--section);
+		box-shadow: var(--shadow-3);
+		transform: translateY(-2px);
 		color: var(--text);
 	}
 
@@ -54,7 +60,7 @@
 	}
 
 	.tool-card:hover .title {
-		color: var(--accent);
+		color: var(--text);
 	}
 
 	.blurb {

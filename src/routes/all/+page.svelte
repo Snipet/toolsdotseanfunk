@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
+	import { pageTitle } from '$lib/brand';
 	import { CATEGORIES, TOOLS, toolsIn } from '$lib/catalog';
 	import { searchTools } from '$lib/search';
 	import { answer } from '$lib/omnibox';
@@ -22,7 +23,7 @@
 </script>
 
 <svelte:head>
-	<title>All {TOOLS.length} tools · The Everything Toolbox</title>
+	<title>{pageTitle(`All ${TOOLS.length} tools`)}</title>
 	<meta name="description" content="The complete index of every tool on the site." />
 </svelte:head>
 

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import { pageTitle } from '$lib/brand';
 	import ToolCard from '$lib/components/ToolCard.svelte';
 	import type { PageProps } from './$types';
 
@@ -22,7 +23,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.category.name} tools · The Everything Toolbox</title>
+	<title>{pageTitle(`${data.category.name} tools`)}</title>
 	<meta name="description" content={data.category.blurb} />
 </svelte:head>
 

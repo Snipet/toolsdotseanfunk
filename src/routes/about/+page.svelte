@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import { pageTitle } from '$lib/brand';
 	import { CATEGORIES, TOOLS, toolsIn } from '$lib/catalog';
 </script>
 
 <svelte:head>
-	<title>About · The Everything Toolbox</title>
+	<title>{pageTitle('About')}</title>
 	<meta
 		name="description"
 		content="What this site is, how it handles your data, where its formulas come from, and what is coming next."
