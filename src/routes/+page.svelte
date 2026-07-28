@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { CATEGORIES, FEATURED, TOOLS, TOOL_BY_PATH, toolsIn, type Tool } from '$lib/catalog';
 	import { prefs } from '$lib/state/prefs.svelte';
 	import Omnibox from '$lib/components/Omnibox.svelte';
@@ -25,7 +26,7 @@
 
 	function randomTool() {
 		const tool = TOOLS[Math.floor(Math.random() * TOOLS.length)];
-		return `/${tool.category}/${tool.slug}`;
+		return `${base}/${tool.category}/${tool.slug}`;
 	}
 </script>
 
@@ -51,7 +52,7 @@
 	<div class="examples">
 		<span class="small muted">Try asking:</span>
 		{#each examples as example (example)}
-			<a class="example" href="/all?q={encodeURIComponent(example)}">{example}</a>
+			<a class="example" href="{base}/all?q={encodeURIComponent(example)}">{example}</a>
 		{/each}
 	</div>
 
@@ -94,7 +95,7 @@
 	<h2>Browse by category</h2>
 	<div class="cats">
 		{#each CATEGORIES as category (category.id)}
-			<a class="cat" href="/{category.id}">
+			<a class="cat" href="{base}/{category.id}">
 				<span class="cat-icon" aria-hidden="true">
 					<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
 						<path d={category.icon} />

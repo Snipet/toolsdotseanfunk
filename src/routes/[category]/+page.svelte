@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import ToolCard from '$lib/components/ToolCard.svelte';
 	import type { PageProps } from './$types';
 
@@ -26,7 +27,7 @@
 </svelte:head>
 
 <header class="head">
-	<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Tools</a></nav>
+	<nav class="crumbs" aria-label="Breadcrumb"><a href="{base}/">Tools</a></nav>
 	<h1>{data.category.name}</h1>
 	<p class="blurb">{data.category.blurb}</p>
 	<label class="visually-hidden" for="cat-filter">Filter {data.category.name} tools</label>
@@ -46,7 +47,7 @@
 		{/each}
 	</div>
 {:else}
-	<p class="muted empty">Nothing here matches “{filter}”. <a href="/all">Search everything</a>.</p>
+	<p class="muted empty">Nothing here matches “{filter}”. <a href="{base}/all">Search everything</a>.</p>
 {/if}
 
 <style>

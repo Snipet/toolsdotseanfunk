@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { CATEGORY_BY_ID, toolPath, type Tool } from '$lib/catalog';
 
 	interface Props {
@@ -10,7 +11,7 @@
 
 	let { tool, compact = false, showCategory = false }: Props = $props();
 
-	const href = $derived(toolPath(tool));
+	const href = $derived(base + toolPath(tool));
 	const category = $derived(CATEGORY_BY_ID.get(tool.category));
 </script>
 

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import { onMount } from 'svelte';
+	import { base } from '$app/paths';
 	import { page } from '$app/state';
 	import { CATEGORIES } from '$lib/catalog';
 	import { prefs } from '$lib/state/prefs.svelte';
@@ -30,7 +31,7 @@
 
 <header class="site-header">
 	<div class="bar">
-		<a class="brand" href="/" aria-label="The Everything Toolbox — home">
+		<a class="brand" href="{base}/" aria-label="The Everything Toolbox — home">
 			<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
 				<rect x="2.5" y="7.5" width="19" height="12" rx="2.5" fill="var(--accent)" />
 				<path
@@ -52,8 +53,8 @@
 		{/if}
 
 		<nav class="primary" aria-label="Main">
-			<a href="/all">All tools</a>
-			<a href="/about">About</a>
+			<a href="{base}/all">All tools</a>
+			<a href="{base}/about">About</a>
 		</nav>
 
 		<div class="header-actions">
@@ -81,10 +82,10 @@
 	{#if navOpen}
 		<nav class="drawer" aria-label="Categories">
 			{#each CATEGORIES as category (category.id)}
-				<a href="/{category.id}">{category.name}</a>
+				<a href="{base}/{category.id}">{category.name}</a>
 			{/each}
-			<a href="/all">Everything</a>
-			<a href="/about">About</a>
+			<a href="{base}/all">Everything</a>
+			<a href="{base}/about">About</a>
 		</nav>
 	{/if}
 </header>
@@ -104,7 +105,7 @@
 		</div>
 		<nav class="foot-cats" aria-label="Categories">
 			{#each CATEGORIES as category (category.id)}
-				<a href="/{category.id}">{category.name}</a>
+				<a href="{base}/{category.id}">{category.name}</a>
 			{/each}
 		</nav>
 	</div>
@@ -112,7 +113,7 @@
 		<span class="small muted">
 			Health, finance and legal tools are educational — not professional advice.
 		</span>
-		<a class="small" href="/about">About &amp; sources</a>
+		<a class="small" href="{base}/about">About &amp; sources</a>
 	</div>
 </footer>
 

@@ -2,6 +2,7 @@
 	import type { Snippet } from 'svelte';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
+	import { base } from '$app/paths';
 	import { page } from '$app/state';
 	import { CATEGORY_BY_ID, TOOL_BY_PATH, toolPath, toolsIn, type Tool } from '$lib/catalog';
 	import { prefs } from '$lib/state/prefs.svelte';
@@ -63,9 +64,9 @@
 <article class="tool-page">
 	<header class="head">
 		<nav class="crumbs" aria-label="Breadcrumb">
-			<a href="/">Tools</a>
+			<a href="{base}/">Tools</a>
 			<Icon name="chevron" size={13} />
-			<a href="/{tool.category}">{category?.name ?? tool.category}</a>
+			<a href="{base}/{tool.category}">{category?.name ?? tool.category}</a>
 		</nav>
 
 		<div class="title-row">
@@ -137,7 +138,7 @@
 	{/if}
 
 	<footer class="page-foot no-print">
-		<a href="/{tool.category}">← All {category?.name.toLowerCase() ?? 'tools'}</a>
+		<a href="{base}/{tool.category}">← All {category?.name.toLowerCase() ?? 'tools'}</a>
 		<a
 			href="https://github.com/snipet/toolsdotseanfunk/issues/new?title={encodeURIComponent(
 				`Problem with ${heading}`

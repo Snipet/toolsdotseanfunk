@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { base } from '$app/paths';
 	import { CATEGORIES, TOOLS, toolsIn } from '$lib/catalog';
 	import { searchTools } from '$lib/search';
 	import { answer } from '$lib/omnibox';
@@ -53,7 +54,7 @@
 				<p class="small muted">{a.question}</p>
 				<p class="answer-value num">{a.value}</p>
 				{#if a.detail}<p class="answer-detail">{a.detail}</p>{/if}
-				<a href={a.href}>{a.hrefLabel} →</a>
+				<a href="{base}{a.href}">{a.hrefLabel} →</a>
 			</div>
 		{/each}
 	</div>
@@ -87,7 +88,7 @@
 	{#each CATEGORIES as category (category.id)}
 		<section class="cat-block">
 			<h2 class="section-title">
-				<a href="/{category.id}">{category.name}</a>
+				<a href="{base}/{category.id}">{category.name}</a>
 				<span class="count">{toolsIn(category.id).length}</span>
 			</h2>
 			<div class="grid">

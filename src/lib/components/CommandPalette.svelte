@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import { TOOL_BY_PATH, TOOLS, toolPath } from '$lib/catalog';
 	import { searchTools } from '$lib/search';
 	import { answer } from '$lib/omnibox';
@@ -40,10 +41,10 @@
 
 	function choose(index: number) {
 		if (answers.length && index === 0) {
-			void goto(answers[0].href);
+			void goto(base + answers[0].href);
 		} else {
 			const tool = results[answers.length ? index - 1 : index];
-			if (tool) void goto(toolPath(tool));
+			if (tool) void goto(base + toolPath(tool));
 		}
 		open = false;
 	}

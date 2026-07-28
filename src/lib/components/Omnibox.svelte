@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import { answer, type Answer } from '$lib/omnibox';
 	import { searchTools, type SearchHit } from '$lib/search';
 	import { CATEGORY_BY_ID } from '$lib/catalog';
@@ -43,10 +44,10 @@
 
 	function activate(index: number) {
 		if (index < answers.length) {
-			void goto(answers[index].href);
+			void goto(base + answers[index].href);
 		} else {
 			const hit = hits[index - answers.length];
-			if (hit) void goto(hit.path);
+			if (hit) void goto(base + hit.path);
 		}
 		close();
 	}
@@ -131,7 +132,7 @@
 					{#if a.detail}
 						<p class="answer-detail">{a.detail}</p>
 					{/if}
-					<a class="answer-link" href={a.href} onclick={close}>
+					<a class="answer-link" href="{base}{a.href}" onclick={close}>
 						{a.hrefLabel}
 						<Icon name="chevron" size={13} />
 					</a>
@@ -147,7 +148,7 @@
 					<a
 						class="hit"
 						class:cursor={cursor === index}
-						href={hit.path}
+						href="{base}{hit.path}"
 						role="option"
 						aria-selected={cursor === index}
 						onclick={close}
@@ -159,7 +160,7 @@
 				{/each}
 			{:else if !answers.length}
 				<p class="empty">
-					No tool matches “{query}”. <a href="/all">Browse everything</a> or
+					No tool matches “{query}”. <a href="{base}/all">Browse everything</a> or
 					<a
 						href="https://github.com/snipet/toolsdotseanfunk/issues/new?title={encodeURIComponent(
 							`Tool request: ${query}`

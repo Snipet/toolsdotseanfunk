@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { CATEGORIES, TOOLS, toolsIn } from '$lib/catalog';
 </script>
 
@@ -79,7 +80,7 @@
 	<ul class="cat-list">
 		{#each CATEGORIES as category (category.id)}
 			<li>
-				<a href="/{category.id}">{category.name}</a>
+				<a href="{base}/{category.id}">{category.name}</a>
 				<span class="muted small"> — {toolsIn(category.id).length} tools</span>
 			</li>
 		{/each}

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
+	import { base } from '$app/paths';
 	import {
 		DIMENSION_BY_ID,
 		DIMENSIONS,
@@ -236,7 +237,7 @@
 			<h2>Other {dimension.name.toLowerCase()} conversions</h2>
 			<div class="pair-links">
 				{#each otherPairs as pair (pair.slug)}
-					<a href="/convert/{pair.slug}">{pair.title}</a>
+					<a href="{base}/convert/{pair.slug}">{pair.title}</a>
 				{/each}
 			</div>
 		</section>

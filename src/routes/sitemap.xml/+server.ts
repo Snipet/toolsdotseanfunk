@@ -1,3 +1,4 @@
+import { base } from '$app/paths';
 import { CATEGORIES, TOOLS, toolPath } from '$lib/catalog';
 
 export const prerender = true;
@@ -20,7 +21,7 @@ export function GET() {
 ${paths
 	.map(
 		(path) =>
-			`\t<url>\n\t\t<loc>${path}</loc>\n\t\t<changefreq>monthly</changefreq>\n\t\t<priority>${path === '/' ? '1.0' : path.split('/').length === 2 ? '0.8' : '0.6'}</priority>\n\t</url>`
+			`\t<url>\n\t\t<loc>${base}${path}</loc>\n\t\t<changefreq>monthly</changefreq>\n\t\t<priority>${path === '/' ? '1.0' : path.split('/').length === 2 ? '0.8' : '0.6'}</priority>\n\t</url>`
 	)
 	.join('\n')}
 </urlset>`;

@@ -10,6 +10,7 @@ backend, no account, no ads, and nothing you type or upload leaves your device.
 npm install
 npm run dev      # development server
 npm run verify   # type-check, test, build
+npm run e2e      # browser suite against build/ (needs npx playwright install chromium)
 ```
 
 ## What is here
@@ -76,9 +77,15 @@ folder of static files.
 - **Dates** — calendar arithmetic across leap years, month-end clamping and ISO
   week boundaries.
 
-Beyond unit tests, the build is verified in a real browser: all 234 prerendered
-pages are crawled for console and runtime errors, and the key interactions
-(omnibox, palette, converters, the visualizer) are exercised end to end.
+Beyond unit tests, the build is verified in a real browser by `npm run e2e`:
+`scripts/smoke.mjs` exercises the key interactions (omnibox, palette,
+converters, the visualizer) and `scripts/crawl.mjs` walks all 234 prerendered
+pages looking for console and runtime errors. That last layer earns its keep —
+it caught an infinite reactive loop in the sorting visualizer that the tests and
+the type-checker both missed.
+
+CI (`.github/workflows/ci.yml`) runs the type-check, the unit tests, both builds
+and the browser suite on every pull request and on pushes to `main` and `dev`.
 
 ## Architecture
 
@@ -112,8 +119,28 @@ print stylesheet that strips the interface.
 ## Deploying
 
 `npm run build` produces a fully static `build/` directory (adapter-static, with
-a `404.html` fallback). It can be served by anything — Netlify, Vercel,
-Cloudflare Pages, GitHub Pages, S3, or `npx serve build`.
+a `404.html` fallback). It can be served by anything — Cloudflare Pages, Netlify,
+Vercel, GitHub Pages, S3, or `node scripts/serve.mjs`.
+
+Two branches, two targets:
+
+| Branch | Target | Base path |
+| --- | --- | --- |
+| `dev` | GitHub Pages, deployed by `.github/workflows/pages.yml` | `/<repo>`, from `actions/configure-pages` |
+| `main` | Cloudflare Pages (build command `npm run build`, output `build`) | none |
+
+The site is served from a subdirectory on a GitHub Pages project site, so the
+build takes a `BASE_PATH` environment variable and every internal link goes
+through `base` from `$app/paths`. Nothing else needs to change between the two
+deployments, and a custom domain on Pages makes `BASE_PATH` empty on its own.
+
+```bash
+BASE_PATH=/toolsdotseanfunk npm run build   # what the Pages workflow runs
+BASE_PATH=/toolsdotseanfunk npm run e2e     # verify that build the way it is served
+```
+
+GitHub Pages needs one manual step: **Settings → Pages → Source → GitHub
+Actions**.
 
 ## Not yet built
 
