@@ -139,8 +139,12 @@ BASE_PATH=/toolsdotseanfunk npm run build   # what the Pages workflow runs
 BASE_PATH=/toolsdotseanfunk npm run e2e     # verify that build the way it is served
 ```
 
-GitHub Pages needs one manual step: **Settings → Pages → Source → GitHub
-Actions**.
+The Pages workflow enables Pages itself (`enablement: true`), so the source
+setting needs no visit. One thing does, once: GitHub restricts the
+`github-pages` environment to the default branch, so deploying from `dev` is
+rejected with *"Branch dev is not allowed to deploy to github-pages due to
+environment protection rules"* until `dev` is allowed under **Settings →
+Environments → github-pages → Deployment branches and tags**.
 
 ## Not yet built
 
