@@ -32,6 +32,10 @@ jobs:
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v5
+        with:
+          # Create the Pages site on the first run instead of failing on a
+          # repository where Pages has never been turned on by hand.
+          enablement: true
 
       - run: npm ci
 
