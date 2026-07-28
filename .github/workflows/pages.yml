@@ -1,0 +1,62 @@
+name: Deploy dev to GitHub Pages
+
+# dev is the staging deployment, served by GitHub Pages. main is reserved for
+# the production deployment on Cloudflare Pages.
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it half-published.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+        with:
+          # Create the Pages site on the first run instead of failing on a
+          # repository where Pages has never been turned on by hand.
+          enablement: true
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          # A project site is served from /<repo>; configure-pages reports an
+          # empty base_path once a custom domain is set, so this adapts on its own.
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

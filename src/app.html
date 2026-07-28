@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.svg" type="image/svg+xml" />
+		<link rel="manifest" href="%sveltekit.assets%/manifest.webmanifest" />
+		<meta name="theme-color" content="#b8481f" />
+		<script>
+			// Apply the saved theme before first paint so there is no flash.
+			try {
+				const saved = localStorage.getItem('tb:theme');
+				if (saved === 'light' || saved === 'dark') {
+					document.documentElement.dataset.theme = saved;
+				}
+			} catch (e) {
+				/* private mode — fall back to the OS preference */
+			}
+		</script>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>

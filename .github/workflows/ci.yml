@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Type-check, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Type-check
+        run: npm run check
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      # main deploys to the domain root, dev to a GitHub Pages subdirectory.
+      # Building both keeps a base-path regression from reaching the deploy.
+      - name: Build for a subdirectory deployment
+        run: npm run build
+        env:
+          BASE_PATH: /${{ github.event.repository.name }}
+
+  e2e:
+    name: Browser suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - run: npm run build
+
+      # Interaction smoke test, then every prerendered page crawled for console
+      # and runtime errors — the layer that catches what tests and types cannot.
+      - name: Smoke test and full crawl
+        run: npm run e2e

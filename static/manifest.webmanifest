@@ -1,0 +1,18 @@
+{
+	"name": "The Everything Toolbox",
+	"short_name": "Toolbox",
+	"description": "Converters, calculators, generators and visualizers — free, fast and private.",
+	"start_url": "/",
+	"scope": "/",
+	"display": "standalone",
+	"background_color": "#fbfbfa",
+	"theme_color": "#b8481f",
+	"icons": [
+		{
+			"src": "/favicon.svg",
+			"sizes": "any",
+			"type": "image/svg+xml",
+			"purpose": "any"
+		}
+	]
+}
